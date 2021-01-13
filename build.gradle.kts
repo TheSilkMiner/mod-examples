@@ -104,6 +104,7 @@ dependencies {
 
     // Specify that the standard library of Kotlin that should be used to compile
     implementation(project.the<DependencyManagementExtension>().deobf("thedarkcolour:kotlinforforge:1.7.0"))
+    implementation("org.jetbrains.kotlin:kotlin-reflect:1.4.21")
 }
 
 // Repositories to add Kotlin

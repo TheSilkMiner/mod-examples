@@ -36,6 +36,8 @@ import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent
 import net.minecraftforge.fml.event.lifecycle.GatherDataEvent
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext
+import thedarkcolour.kotlinforforge.forge.FORGE_BUS
+import thedarkcolour.kotlinforforge.forge.MOD_BUS
 
 /**
  * The id or namespace associated with this mod.
@@ -47,11 +49,14 @@ internal const val MOD_ID = "examplemod"
  * with the mod.
  */
 @Mod(MOD_ID)
-internal class ExampleMod {
+internal object ExampleMod {
 
     init {
-        val mod = FMLJavaModLoadingContext.get().modEventBus
-        val forge = MinecraftForge.EVENT_BUS
+        /* This is done for consistency and easier merging between the
+        *  two versions. In practice, call the values as is.
+        */
+        val mod = MOD_BUS
+        val forge = FORGE_BUS
 
         // Initialize physical client
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT) { Runnable { initClient(mod, forge) } }
@@ -60,8 +65,8 @@ internal class ExampleMod {
         register(mod)
 
         // Attach common events
-        mod.addListener { event: FMLCommonSetupEvent -> commonSetup(event) }
-        mod.addListener { event: GatherDataEvent -> attachProviders(event) }
+        mod.addListener(::commonSetup)
+        mod.addListener(::attachProviders)
     }
 
     /**
